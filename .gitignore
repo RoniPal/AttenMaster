@@ -22,6 +22,12 @@ DerivedData
 *.xcuserstate
 **/.xcode.env.local
 
+# Android build files
+android/build/
+
+# Node.js dependencies
+node_modules/
+
 # Android/IntelliJ
 #
 build/
@@ -73,3 +79,23 @@ yarn-error.log
 !.yarn/releases
 !.yarn/sdks
 !.yarn/versions
+
+
+# iOS dependencies
+ios/Pods/
+
+# Build artifacts
+*.apk
+*.ipa
+
+# Logs
+*.log
+
+# macOS system files
+.DS_Store
+
+# Environment files (can contain sensitive data)
+.env
+
+# Expo (if using Expo)
+.expo/
