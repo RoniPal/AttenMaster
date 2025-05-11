@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "885024045499",
+    "project_id": "college-project-2025",
+    "storage_bucket": "college-project-2025.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885024045499:android:d12531dc899c7578af6c9e",
+        "android_client_info": {
+          "package_name": "com.college"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885024045499-iros2fjrecq85df37jcrrum781m46abe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.college",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "885024045499-hmlhkk5bvab6dab6rnu2ifdnnflj8kal.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBthZ-tz4PU2kTk_og9vRFEb88JVHFec1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885024045499-hmlhkk5bvab6dab6rnu2ifdnnflj8kal.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
