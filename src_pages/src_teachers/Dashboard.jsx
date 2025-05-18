@@ -1,11 +1,9 @@
 import {
   ActivityIndicator,
   Alert,
-  Button,
   FlatList,
   Modal,
   Pressable,
-  ScrollView,
   StyleSheet,
   Text,
   useColorScheme,
@@ -14,7 +12,6 @@ import {
 import React, {useEffect, useState} from 'react';
 import {
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -60,9 +57,9 @@ const Dashboard = ({adminEmail}) => {
 
       const attendanceQuery = query(
         collection(db, 'attendance'),
-        where('teacher', '==', adminEmail),
         where('timestamp', '>=', Timestamp.fromDate(startOfDay)),
         where('timestamp', '<=', Timestamp.fromDate(endOfDay)),
+        where('teacher', '==', adminEmail),
       );
 
       const attendanceSnap = await getDocs(attendanceQuery);
@@ -93,6 +90,49 @@ const Dashboard = ({adminEmail}) => {
       console.log(error);
     }
   };
+
+  //Fetch Perticular Subject Attendance
+  const handlePerticularSubjectAttendance = async (semester, subjectName) => {
+setLoading(true)
+    setinfo(false)
+    setmodal(false)
+    console.log("Query for : ", semester, subjectName)
+    console.log(semester)
+    try {
+      const attendanceQuery = query(
+        collection(db, 'attendance'),
+        where('semester', '==', Number(semester)),
+        where('subject', '==', subjectName),
+      );
+
+      const attendanceSnap = await getDocs(attendanceQuery);
+
+      console.log('Query Result:', attendanceSnap.docs);
+
+      if (attendanceSnap.empty) {
+        console.log('No documents found');
+        Alert.alert('Nothing Found');
+        setmodal(false);
+        setinfo(false)
+        setLoading(false)
+        return;
+      }
+
+      const recordList = attendanceSnap.docs.map(doc => ({
+        id: doc.id,
+        data: doc.data(),
+      }));
+      setrecords(recordList);
+      setmodal(true);
+      setinfo(true)
+      setLoading(false)
+    } catch (error) {
+      setmodal(false)
+      setinfo(false)
+      setLoading(false)
+      console.log(error);
+    }
+  }
 
   //Calendar Open
   const openCalendar = () => {
@@ -202,14 +242,20 @@ const Dashboard = ({adminEmail}) => {
           const [semester, subjects] = item
 
           return(
-          <View style={{flex:1, width:250, borderWidth:3, borderColor:textC, borderRadius:10, marginBottom:20, paddingVertical:5,paddingHorizontal:10}}>
+          <View style={{flex:1, width:300, borderWidth:3, borderColor:textC, borderRadius:10, marginBottom:20, paddingVertical:5,paddingHorizontal:10}}>
             <Text style={[styles.heading, {color: textC,fontSize:14}]}>Semester {semester}</Text>
             {Object.entries(subjects).map(([subjectName, attendance], index) => (
               <View 
                key={subjectName}
-               style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between"}}>
-                <Text style={{color:textC,marginBottom:10,fontWeight:700,fontSize:12,flexWrap:"wrap",width:150}}>{subjectName}</Text>
-                <Text style={{color:textC,marginBottom:10,fontWeight:700,fontSize:12,flexWrap:"wrap",width:60, textAlign:"right"}}>{attendance} Taken</Text>
+               style={{flexDirection:"row",alignItems:"center",justifyContent:"space-between", flexWrap:"wrap"}}>
+                <Text style={{color:textC,marginBottom:20,fontWeight:700,fontSize:12,flexWrap:"wrap",width:150}}>{subjectName}</Text>
+                <Text style={{color:textC,marginBottom:20,fontWeight:700,fontSize:12,flexWrap:"wrap",width:60, textAlign:"right"}}>{attendance} Taken</Text>
+                <Pressable
+                style={[styles.btn,{backgroundColor:textC,width:25,height:25, borderRadius:"50%",marginBottom:20}]}
+                android_ripple={{color:bgColor}}
+                onPress={() => handlePerticularSubjectAttendance(semester, subjectName)}>
+                  <Icon name='info-circle' size={20} color={bgColor} />
+                </Pressable>
               </View>
             ))}
           </View>
